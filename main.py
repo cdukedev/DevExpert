@@ -60,4 +60,3 @@ if __name__ == "__main__":
     handler = SocketModeHandler(app, os.environ.get("SLACK_APP_TOKEN"))
     handler.start()
     
-# initial 
