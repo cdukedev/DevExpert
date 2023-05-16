@@ -26,13 +26,17 @@ slack_client = WebClient(token=os.environ["SLACK_BOT_TOKEN"])
 auth_response = slack_client.auth_test()
 bot_user_id = auth_response["user_id"]
 # Event handler for app mentions
+# Event handler for app mentions
 @app.event("app_mention")
 def handle_app_mentions(body, say):
-    print(body)
     prompt = body["event"]["text"]
     user_id = body["event"]["user"]
     if user_id == bot_user_id:
         return
+    
+    # Remove @devexpert mention from the prompt
+    prompt = prompt.replace("<@{}>".format(bot_user_id), "").strip()
+
     # Generate AI response using OpenAI API
     response = openai.Completion.create(
         engine="text-davinci-002",
@@ -55,6 +59,7 @@ def handle_app_mentions(body, say):
 
     # Respond to the mention with the AI-generated response
     say(ai_response)
+
 
 if __name__ == "__main__":
     handler = SocketModeHandler(app, os.environ.get("SLACK_APP_TOKEN"))

@@ -1,0 +1,6 @@
+openai
+slack-bolt
+slack-sdk
+mysql-connector-python
+python-dotenv
+
