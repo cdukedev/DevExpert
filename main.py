@@ -8,6 +8,8 @@ from dotenv import load_dotenv
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationChain
 from langchain.memory import ConversationBufferMemory
+# for shorter memory
+from langchain.memory import ConversationBufferWindowMemory
 
 # Load environment variables
 load_dotenv()
@@ -28,7 +30,6 @@ app = App(token=os.environ.get("SLACK_BOT_TOKEN"))
 slack_client = WebClient(token=os.environ["SLACK_BOT_TOKEN"])
 auth_response = slack_client.auth_test()
 bot_user_id = auth_response["user_id"]
-# Event handler for app mentions
 # Event handler for app mentions
 
 
@@ -52,27 +53,19 @@ def handle_app_mentions(body, say):
     prompt = prompt.replace("<@{}>".format(bot_user_id), "").strip()
 
     # Generate AI response using OpenAI API
-    response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt=prompt,
-        max_tokens=2000,
-        n=1,
-        stop=None,
-        temperature=0.7,
+    response = conversation.predict(
+        input=prompt,
     )
-
-    ai_response = response.choices[0].text.strip()
-    print(ai_response)
+    print(response)
 
     # Save conversation to MySQL database
     cursor = db.cursor()
     query = "INSERT INTO conversations (user_id, user_input, ai_response) VALUES (%s, %s, %s)"
-    values = (user_id, prompt, ai_response)
+    values = (user_id, prompt, response)
     cursor.execute(query, values)
     db.commit()
 
-    # Respond to the mention with the AI-generated response
-    say(ai_response)
+    say(response)
 
 
 if __name__ == "__main__":
