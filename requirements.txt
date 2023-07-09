@@ -4,3 +4,4 @@ slack-sdk
 mysql-connector-python
 python-dotenv
 langchain
+transformers

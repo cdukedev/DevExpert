@@ -35,12 +35,5 @@ conversation.predict(input="Hi, my name is Andrew")
 
 conversation.predict(input="What is 1+1?")
 
-#   ____          _      _   _           _           _ 
-#  / ___|___   __| | ___| \ | | ___  ___| |_ ___  __| |
-# | |   / _ \ / _` |/ _ \  \| |/ _ \/ __| __/ _ \/ _` |
-# | |__| (_) | (_| |  __/ |\  |  __/ (__| ||  __/ (_| |
-#  \____\___/ \__,_|\___|_| \_|\___|\___|\__\___|\__,_|
-                                                     
-
 
 conversation.predict(input="What is my name?")

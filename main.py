@@ -11,6 +11,12 @@ from langchain.memory import ConversationBufferMemory
 # for shorter memory
 from langchain.memory import ConversationBufferWindowMemory
 
+# ******************************************************
+# TODO: Set up with custom fine-tuned model once the memory issue is resolved with langchain we use a different memory 
+# ******************************************************
+
+
+
 # Load environment variables
 load_dotenv()
 
@@ -33,12 +39,12 @@ bot_user_id = auth_response["user_id"]
 # Event handler for app mentions
 
 
-llm = ChatOpenAI(temperature=0.0)
+llm = ChatOpenAI()
 memory = ConversationBufferMemory()
 conversation = ConversationChain(
     llm=llm,
     memory=memory,
-    verbose=False
+    verbose=False,
 )
 
 
